@@ -41,6 +41,7 @@ Command line options are as follows:
 | `use_bluetooth-le` | Use the Bluetooth LE Buttplug Device Communication Manager |
 | `use-serial` | Use the Serial Port Buttplug Device Communication Manager |
 | `use-hid` | Use the HID Buttplug Device Communication Manager |
+| `use-evdev` | Use the (very primitive) Evdev (Linux gamepad) Device Communication Thingy |
 | `use-lovense-dongle` | Use the HID Lovense Dongle Buttplug Device Communication Manager |
 | `use-xinput` | Use the XInput Buttplug Device Communication Manager |
 | `use-lovense-connect` | Use the Lovense Connect Buttplug Device Communication Manager |
@@ -49,7 +50,10 @@ Command line options are as follows:
 
 For example, to run the server on websockets at port 12345 with bluetooth device support:
 
-`intiface-engine --websocket-port 12345 --use-bluetooth-le`
+`intiface-engine --websocket-port 12345 --use-evdev --server-name "Baba's Butt"`  
+  
+or more simply, after cloning the repo just run:  
+`cargo run -- --websocket-port 12345 --use-evdev --server-name "Baba's Butt"`  
 
 ## Compiling
 
