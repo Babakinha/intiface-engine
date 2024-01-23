@@ -106,6 +106,12 @@ pub struct IntifaceCLIArguments {
   #[getset(get_copy = "pub")]
   use_hid: bool,
 
+  /// turn off evdev device support
+  #[allow(dead_code)]
+  #[argh(switch)]
+  #[getset(get_copy = "pub")]
+  use_evdev: bool,
+
   /// turn off lovense dongle serial device support
   #[argh(switch)]
   #[getset(get_copy = "pub")]
@@ -204,6 +210,7 @@ impl TryFrom<IntifaceCLIArguments> for EngineOptions {
       .use_bluetooth_le(args.use_bluetooth_le())
       .use_serial_port(args.use_serial())
       .use_hid(args.use_hid())
+      .use_evdev(args.use_evdev())
       .use_lovense_dongle_serial(args.use_lovense_dongle_serial())
       .use_lovense_dongle_hid(args.use_lovense_dongle_hid())
       .use_xinput(args.use_xinput())

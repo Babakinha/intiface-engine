@@ -31,6 +31,7 @@ pub fn setup_server_device_comm_managers(
   {
     use buttplug::server::device::hardware::communication::{
       hid::HidCommunicationManagerBuilder,
+      evdev::EvdevCommunicationManagerBuilder,
       lovense_dongle::{
         LovenseHIDDongleCommunicationManagerBuilder, LovenseSerialDongleCommunicationManagerBuilder,
       },
@@ -51,6 +52,10 @@ pub fn setup_server_device_comm_managers(
     if args.use_hid() {
       info!("Including Hid Support");
       server_builder.comm_manager(HidCommunicationManagerBuilder::default());
+    }
+    if args.use_evdev() {
+      info!("Including Evdev Support");
+      server_builder.comm_manager(EvdevCommunicationManagerBuilder::default());
     }
     #[cfg(target_os = "windows")]
     {

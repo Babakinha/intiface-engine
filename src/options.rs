@@ -36,6 +36,8 @@ pub struct EngineOptions {
   #[getset(get_copy = "pub")]
   use_hid: bool,
   #[getset(get_copy = "pub")]
+  use_evdev: bool,
+  #[getset(get_copy = "pub")]
   use_lovense_dongle_serial: bool,
   #[getset(get_copy = "pub")]
   use_lovense_dongle_hid: bool,
@@ -75,6 +77,7 @@ pub struct EngineOptionsExternal {
   pub use_bluetooth_le: bool,
   pub use_serial_port: bool,
   pub use_hid: bool,
+  pub use_evdev: bool,
   pub use_lovense_dongle_serial: bool,
   pub use_lovense_dongle_hid: bool,
   pub use_xinput: bool,
@@ -106,6 +109,7 @@ impl From<EngineOptionsExternal> for EngineOptions {
       use_bluetooth_le: other.use_bluetooth_le,
       use_serial_port: other.use_serial_port,
       use_hid: other.use_hid,
+      use_evdev: other.use_evdev,
       use_lovense_dongle_serial: other.use_lovense_dongle_serial,
       use_lovense_dongle_hid: other.use_lovense_dongle_hid,
       use_xinput: other.use_xinput,
@@ -191,6 +195,11 @@ impl EngineOptionsBuilder {
 
   pub fn use_hid(&mut self, value: bool) -> &mut Self {
     self.options.use_hid = value;
+    self
+  }
+
+  pub fn use_evdev(&mut self, value: bool) -> &mut Self {
+    self.options.use_evdev = value;
     self
   }
 
