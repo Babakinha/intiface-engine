@@ -1,18 +1,13 @@
 use getset::{CopyGetters, Getters};
-use tracing::Level;
 
 #[derive(CopyGetters, Getters, Default, Debug, Clone)]
 pub struct EngineOptions {
-  #[getset(get = "pub")]
-  sentry_api_key: Option<String>,
   #[getset(get = "pub")]
   device_config_json: Option<String>,
   #[getset(get = "pub")]
   user_device_config_json: Option<String>,
   #[getset(get = "pub")]
   server_name: String,
-  #[getset(get_copy = "pub")]
-  crash_reporting: bool,
   #[getset(get_copy = "pub")]
   websocket_use_all_interfaces: bool,
   #[getset(get_copy = "pub")]
@@ -25,8 +20,6 @@ pub struct EngineOptions {
   frontend_in_process_channel: bool,
   #[getset(get_copy = "pub")]
   max_ping_time: u32,
-  #[getset(get = "pub")]
-  log_level: Option<String>,
   #[getset(get_copy = "pub")]
   allow_raw_messages: bool,
   #[getset(get_copy = "pub")]
@@ -57,22 +50,25 @@ pub struct EngineOptions {
   broadcast_server_mdns: bool,
   #[getset(get = "pub")]
   mdns_suffix: Option<String>,
+  #[getset(get_copy = "pub")]
+  repeater_mode: bool,
+  #[getset(get_copy = "pub")]
+  repeater_local_port: Option<u16>,
+  #[getset(get = "pub")]
+  repeater_remote_address: Option<String>,
 }
 
 #[derive(Default, Debug, Clone)]
 pub struct EngineOptionsExternal {
-  pub sentry_api_key: Option<String>,
   pub device_config_json: Option<String>,
   pub user_device_config_json: Option<String>,
   pub server_name: String,
-  pub crash_reporting: bool,
   pub websocket_use_all_interfaces: bool,
   pub websocket_port: Option<u16>,
   pub websocket_client_address: Option<String>,
   pub frontend_websocket_port: Option<u16>,
   pub frontend_in_process_channel: bool,
   pub max_ping_time: u32,
-  pub log_level: Option<String>,
   pub allow_raw_messages: bool,
   pub use_bluetooth_le: bool,
   pub use_serial_port: bool,
@@ -88,23 +84,23 @@ pub struct EngineOptionsExternal {
   pub crash_task_thread: bool,
   pub broadcast_server_mdns: bool,
   pub mdns_suffix: Option<String>,
+  pub repeater_mode: bool,
+  pub repeater_local_port: Option<u16>,
+  pub repeater_remote_address: Option<String>,
 }
 
 impl From<EngineOptionsExternal> for EngineOptions {
   fn from(other: EngineOptionsExternal) -> Self {
     Self {
-      sentry_api_key: other.sentry_api_key,
       device_config_json: other.device_config_json,
       user_device_config_json: other.user_device_config_json,
       server_name: other.server_name,
-      crash_reporting: other.crash_reporting,
       websocket_use_all_interfaces: other.websocket_use_all_interfaces,
       websocket_port: other.websocket_port,
       websocket_client_address: other.websocket_client_address,
       frontend_websocket_port: other.frontend_websocket_port,
       frontend_in_process_channel: other.frontend_in_process_channel,
       max_ping_time: other.max_ping_time,
-      log_level: other.log_level,
       allow_raw_messages: other.allow_raw_messages,
       use_bluetooth_le: other.use_bluetooth_le,
       use_serial_port: other.use_serial_port,
@@ -120,6 +116,9 @@ impl From<EngineOptionsExternal> for EngineOptions {
       crash_task_thread: other.crash_task_thread,
       broadcast_server_mdns: other.broadcast_server_mdns,
       mdns_suffix: other.mdns_suffix,
+      repeater_mode: other.repeater_mode,
+      repeater_local_port: other.repeater_local_port,
+      repeater_remote_address: other.repeater_remote_address,
     }
   }
 }
@@ -130,11 +129,6 @@ pub struct EngineOptionsBuilder {
 }
 
 impl EngineOptionsBuilder {
-  pub fn sentry_api_key(&mut self, value: &str) -> &mut Self {
-    self.options.sentry_api_key = Some(value.to_owned());
-    self
-  }
-
   pub fn device_config_json(&mut self, value: &str) -> &mut Self {
     self.options.device_config_json = Some(value.to_owned());
     self
@@ -165,11 +159,6 @@ impl EngineOptionsBuilder {
     {
       self.options.crash_main_thread = value;
     }
-    self
-  }
-
-  pub fn crash_reporting(&mut self, value: bool) -> &mut Self {
-    self.options.crash_reporting = value;
     self
   }
 
@@ -258,11 +247,6 @@ impl EngineOptionsBuilder {
     self
   }
 
-  pub fn log_level(&mut self, level: Level) -> &mut Self {
-    self.options.log_level = Some(level.to_string());
-    self
-  }
-
   pub fn broadcast_server_mdns(&mut self, value: bool) -> &mut Self {
     self.options.broadcast_server_mdns = value;
     self
@@ -270,6 +254,21 @@ impl EngineOptionsBuilder {
 
   pub fn mdns_suffix(&mut self, name: &str) -> &mut Self {
     self.options.mdns_suffix = Some(name.to_owned());
+    self
+  }
+
+  pub fn use_repeater_mode(&mut self) -> &mut Self {
+    self.options.repeater_mode = true;
+    self
+  }
+
+  pub fn repeater_local_port(&mut self, port: u16) -> &mut Self {
+    self.options.repeater_local_port = Some(port);
+    self
+  }
+
+  pub fn repeater_remote_address(&mut self, addr: &str) -> &mut Self {
+    self.options.repeater_remote_address = Some(addr.to_owned());
     self
   }
 

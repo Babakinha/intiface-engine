@@ -8,9 +8,6 @@ pub enum EngineMessage {
   EngineVersion {
     version: String,
   },
-  EngineLog {
-    message: String,
-  },
   EngineStarted {},
   EngineError {
     error: String,
@@ -41,10 +38,3 @@ pub enum IntifaceMessage {
   RequestEngineVersion { expected_version: u32 },
   Stop {},
 }
-
-/*
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct EngineLogMessage {
-
-}
-*/

@@ -29,7 +29,6 @@ Command line options are as follows:
 | --------- | --------- |
 | `version` | Print version and exit |
 | `server-version` | Print version and exit (kept for legacy reasons) |
-| `crash-reporting` | Turn on sentry crash reporting |
 | `websocket-use-all-interfaces` | Websocket servers will listen on all interfaces (versus only on localhost, which is default) |
 | `websocket-port [port]` | Network port for connecting via non-ssl (ws://) protocols |
 | `frontend-websocket-port` | IPC JSON port for Intiface Central |
@@ -50,7 +49,7 @@ Command line options are as follows:
 
 For example, to run the server on websockets at port 12345 with bluetooth device support:
 
-`intiface-engine --weboscket-port 12345 --use-bluetooth-le`
+`intiface-engine --websocket-port 12345 --use-bluetooth-le`
 
 ## Compiling
 
